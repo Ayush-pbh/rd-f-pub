@@ -1,0 +1,27 @@
+.nav-item {
+	display: flex;
+	align-items: center;
+	padding: 8px;
+	width: 100%;
+	cursor: pointer;
+	margin: 5px;
+}
+
+.nav-icon {
+	width: 40px;
+	height: 40px;
+	margin-right: 8px;
+}
+
+.nav-text {
+	flex-grow: 1; /* To allow the text to fill the available space */
+	overflow: hidden;
+	text-overflow: ellipsis; /* To add ellipsis if text overflows */
+	white-space: nowrap; /* To prevent text from wrapping */
+}
+
+.nav-trailing-icon {
+	margin-left: auto; /* Push the trailing icon to the right */
+	width: 20px;
+	height: 20px;
+}

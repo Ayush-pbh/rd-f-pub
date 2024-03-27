@@ -1,0 +1,24 @@
+.prg-holder {
+	height: 20px;
+	width: 100%;
+	background: beige;
+	display: flex;
+}
+.prg-holder div {
+	height: 100%;
+	&:hover {
+		scale: 1.5;
+	}
+}
+.prg-holder div.errors {
+	background-color: orange;
+}
+.prg-holder div.grave {
+	background-color: red;
+}
+.prg-holder div.misconduct {
+	background-color: purple;
+}
+.prg-holder div.normal {
+	background-color: skyblue;
+}

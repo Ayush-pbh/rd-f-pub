@@ -1,22 +1,38 @@
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, Hide, Show } from "@chakra-ui/react";
 import "./App.css";
-import Navbar from "./components/Navbar";
 
+import NavbarLg from "./components/Navbar/NavbarLg";
+import NavbarBase from "./components/Navbar/NavbarBase";
+import RetractionDashboard from "./components/RetractionDashboard/RetractionDashboard";
+import RetractionDashboardSmall from "./components/RetractionDashboard/RetractionDashboardSmall";
 function App() {
 	return (
 		<Grid
 			templateAreas={{
-				base: `"nav" "main"`,
-				lg: `"nav nav" "aside main"`,
+				base: `"navbase" "main"`,
+				lg: `"navlg main"`,
 			}}
 		>
-			<GridItem area="nav">
-				<Navbar />
-			</GridItem>
-			<Show above="lg">
-				<GridItem area="aside">Aside</GridItem>
+			<Show below="md">
+				<GridItem area="navbase">
+					<NavbarBase />
+				</GridItem>
 			</Show>
-			<GridItem area="main">Main</GridItem>
+			<Hide below="md">
+				<GridItem area="navlg">
+					<NavbarLg />
+				</GridItem>
+			</Hide>
+			<Show below="md">
+				<GridItem area="main">
+					<RetractionDashboardSmall></RetractionDashboardSmall>
+				</GridItem>
+			</Show>
+			<Hide below="md">
+				<GridItem area="main">
+					<RetractionDashboard></RetractionDashboard>
+				</GridItem>
+			</Hide>
 		</Grid>
 	);
 }

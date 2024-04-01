@@ -6,7 +6,7 @@ interface Props {
 	country: string;
 }
 const CountryFlagName = ({ country }: Readonly<Props>) => {
-	console.log(lookup.byCountry("Bosnia and Herzegovina"));
+	// console.log(lookup.byCountry("Bosnia and Herzegovina"));
 	return (
 		<div>
 			<ReactCountryFlag

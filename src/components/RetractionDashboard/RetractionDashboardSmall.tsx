@@ -38,25 +38,29 @@ interface CountryInfo {
 
 const RetractionDashboardSmall = () => {
 	const [cI, setCountryInfo] = useState<CountryInfo[]>([]);
+	const [tablePage, setTablePage] = useState({ offset: 0, limit: 10 });
+
 	const [err, setErr] = useState("");
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		apiClient
-			.get<CountryInfo[]>("/data")
+			.get<CountryInfo[]>(
+				`/data?offset=${tablePage.offset}&limit=${tablePage.limit}`
+			)
 			.then((res) => {
 				setCountryInfo(res.data);
 				setLoading(false);
 			})
 			.catch((err) => setErr(err.message));
-	}, []);
+	}, [tablePage.limit, tablePage.offset]);
 	return (
 		<div className="rd-container-sm">
 			<Card>
 				<CardHeader>
-					<Heading size="lg" mb={4}>
+					<Heading size="md" mb={4}>
 						Retraction Dashboard
 					</Heading>
-					<Text fontSize="xl">
+					<Text fontSize="md">
 						Retraction Dashboard by country. Showing output counts, number and
 						percentage of retracted outputs published between 2000 and 2023. You
 						can sort and filter by region, subregion, number of publications
@@ -72,7 +76,7 @@ const RetractionDashboardSmall = () => {
 						<Table size="sm">
 							<Thead>
 								<Tr>
-									<Th>Country</Th>
+									<Th className="fixed-column">Country</Th>
 									<Th textAlign="center">Visual</Th>
 									<Th textAlign="center">Error</Th>
 									<Th textAlign="center">grave</Th>
@@ -110,7 +114,7 @@ const RetractionDashboardSmall = () => {
 								{cI.map((c) => {
 									return (
 										<Tr key={c.country}>
-											<Td>
+											<Td className="fixed-column">
 												<CountryFlagName country={c.country}></CountryFlagName>
 											</Td>
 											<Td textAlign="center">
@@ -135,19 +139,27 @@ const RetractionDashboardSmall = () => {
 									);
 								})}
 							</Tbody>
-							{/* <Tfoot>
-								<Tr>
-									<Th>To convert</Th>
-									<Th>into</Th>
-									<Th isNumeric>multiply by</Th>
-								</Tr>
-							</Tfoot> */}
 						</Table>
 					</TableContainer>
 				</CardBody>
 				<CardFooter>
 					<ButtonGroup>
-						<Button>View Data</Button>
+						<Button
+							onClick={() => {
+								setTablePage({ offset: tablePage.offset - 10, limit: 10 });
+								console.log(tablePage);
+							}}
+						>
+							Prev
+						</Button>
+						<Button
+							onClick={() => {
+								setTablePage({ offset: tablePage.offset + 10, limit: 10 });
+								console.log(tablePage);
+							}}
+						>
+							Next
+						</Button>
 					</ButtonGroup>
 				</CardFooter>
 			</Card>

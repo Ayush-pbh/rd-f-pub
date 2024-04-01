@@ -38,17 +38,21 @@ interface CountryInfo {
 
 const RetractionDashboard = () => {
 	const [cI, setCountryInfo] = useState<CountryInfo[]>([]);
+	const [tablePage, setTablePage] = useState({ offset: 0, limit: 10 });
+
 	const [err, setErr] = useState("");
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		apiClient
-			.get<CountryInfo[]>("/data")
+			.get<CountryInfo[]>(
+				`/data?offset=${tablePage.offset}&limit=${tablePage.limit}`
+			)
 			.then((res) => {
 				setCountryInfo(res.data);
 				setLoading(false);
 			})
 			.catch((err) => setErr(err.message));
-	}, []);
+	}, [tablePage.limit, tablePage.offset]);
 	return (
 		<div className="rd-container">
 			<Card>
@@ -72,7 +76,7 @@ const RetractionDashboard = () => {
 						<Table size="sm">
 							<Thead>
 								<Tr>
-									<Th>Country</Th>
+									<Th className="fixed-column">Country</Th>
 									<Th textAlign="center">Visual</Th>
 									<Th textAlign="center">Error</Th>
 									<Th textAlign="center">grave</Th>
@@ -111,7 +115,7 @@ const RetractionDashboard = () => {
 								{cI.map((c) => {
 									return (
 										<Tr key={c.country}>
-											<Td>
+											<Td className="fixed-column">
 												<CountryFlagName country={c.country}></CountryFlagName>
 											</Td>
 
@@ -160,7 +164,31 @@ const RetractionDashboard = () => {
 				</CardBody>
 				<CardFooter>
 					<ButtonGroup>
-						<Button>View Data</Button>
+						<Button
+							colorScheme={tablePage.offset - 10 < 0 ? "gray" : "twitter"}
+							onClick={() => {
+								if (tablePage.offset - 10 < 0) {
+									alert("No more data to load");
+								} else {
+									setTablePage({ offset: tablePage.offset - 10, limit: 10 });
+									console.log(tablePage);
+								}
+							}}
+						>
+							Prev
+						</Button>
+						<Button
+							colorScheme={tablePage.offset + 10 > 170 ? "gray" : "twitter"}
+							onClick={() => {
+								if (tablePage.offset + 10 > 170) {
+									alert("No more data to load");
+								} else {
+									setTablePage({ offset: tablePage.offset + 10, limit: 10 });
+								}
+							}}
+						>
+							Next
+						</Button>
 					</ButtonGroup>
 				</CardFooter>
 			</Card>
